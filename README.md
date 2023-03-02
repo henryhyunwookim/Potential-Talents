@@ -32,7 +32,7 @@ The data comes from our sourcing efforts. We removed any field that could direct
 - Rank candidates based on a fitness score.
 - Re-rank candidates when a candidate is starred.
 
-### <b>Other objectives</b>
+### <b>Other Objectives</b>
 - We are interested in a robust algorithm, tell us how your solution works and show us how your ranking gets better with each starring action.
 - How can we filter out candidates which in the first place should not be in this list?
 - Can we determine a cut-off point that would work for other roles without losing high potential candidates?
