@@ -19,6 +19,9 @@ from sklearn.model_selection import cross_val_score, RandomizedSearchCV, Repeate
 from sklearn.metrics import accuracy_score
 from sklearn.pipeline import make_pipeline
 
+# Metrics
+from sklearn.metrics.pairwise import cosine_similarity
+
 # Others
 import pandas as pd
 import numpy as np

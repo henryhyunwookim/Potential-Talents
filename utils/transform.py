@@ -5,6 +5,13 @@ from imblearn.over_sampling import SMOTE
 from imblearn.under_sampling import RandomUnderSampler
 from sklearn.preprocessing import StandardScaler
 
+import string
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+from nltk.stem import PorterStemmer
+from sklearn.feature_extraction.text import TfidfVectorizer
+
 
 def pivot_data(data, target, binary_target_value=None):
     X_original = data.drop([target], axis=1)
@@ -71,3 +78,31 @@ def get_numeric_columns(data, cols_to_exclude=None):
             numeric_columns.append(col)
 
     return numeric_columns, non_numeric_columns
+
+
+def process_text(text,
+                 remove_stopwords=True,
+                 lemmitize=True,
+                 stem=True):
+    
+    stop_words = []
+    if remove_stopwords:
+        stop_words = stopwords.words('english')
+    lemmatizer = WordNetLemmatizer()
+    stemmer = PorterStemmer()
+    
+    processed = []
+    tokens = word_tokenize(text.translate(str.maketrans("", "", string.punctuation)))
+    for token in tokens:
+        if token not in stop_words:
+            if lemmitize:
+                lemma = lemmatizer.lemmatize(token)
+                if stem:
+                    stem = stemmer.stem(token)
+                    processed.append(stem)
+                else:
+                    processed.append(lemma)
+            else:
+                processed.append(token)
+    
+    return " ".join(processed)
