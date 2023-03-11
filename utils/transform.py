@@ -80,6 +80,15 @@ def get_numeric_columns(data, cols_to_exclude=None):
     return numeric_columns, non_numeric_columns
 
 
+def convert_terms(word, convert_terms_dict):
+    to_return = word
+    for _from, _to in convert_terms_dict.items():
+        if word == _from:
+            to_return = _to
+    
+    return to_return
+
+
 def process_text(text,
                  remove_stopwords=True,
                  lemmitize=True,
@@ -90,7 +99,7 @@ def process_text(text,
         stop_words = stopwords.words('english')
     lemmatizer = WordNetLemmatizer()
     stemmer = PorterStemmer()
-    
+
     processed = []
     tokens = word_tokenize(text.translate(str.maketrans("", "", string.punctuation)))
     for token in tokens:
