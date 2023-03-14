@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 import pandas as pd
-from pandas_profiling import ProfileReport
 
 
 def load_data(file_name, folder_name=None):

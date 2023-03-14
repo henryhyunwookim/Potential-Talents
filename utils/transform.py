@@ -10,7 +10,6 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from nltk.stem import PorterStemmer
-from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 def pivot_data(data, target, binary_target_value=None):
@@ -91,7 +90,7 @@ def convert_terms(word, convert_terms_dict):
 
 def process_text(text,
                  remove_stopwords=True,
-                 lemmitize=True,
+                 lemmatize=True,
                  stem=True):
     
     stop_words = []
@@ -104,7 +103,7 @@ def process_text(text,
     tokens = word_tokenize(text.translate(str.maketrans("", "", string.punctuation)))
     for token in tokens:
         if token not in stop_words:
-            if lemmitize:
+            if lemmatize:
                 lemma = lemmatizer.lemmatize(token)
                 if stem:
                     stem = stemmer.stem(token)
@@ -115,3 +114,18 @@ def process_text(text,
                 processed.append(token)
     
     return " ".join(processed)
+
+
+def convert_words_to_vectors(input_words, reference_vectors, dimension):
+    output_vectors = []
+    for words in input_words:
+        word_vector = np.zeros(dimension)
+        for word in words.split():
+            try:
+                word_vector += reference_vectors[word.lower()]
+            except KeyError:
+                pass
+        
+        output_vectors.append(word_vector)
+
+    return output_vectors
