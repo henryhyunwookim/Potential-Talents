@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import pickle
 import os
 from pathlib import Path
@@ -33,3 +34,18 @@ def transform_fit_predict(X_train, y_train, X_test, y_test,
     scores = cross_val_score(model, X_test, y_test, scoring='roc_auc',
                             cv=RepeatedStratifiedKFold(n_splits=cv_n_splits, n_repeats=cv_n_repeats))
     print(f"{method}: {np.mean(scores)}")
+
+
+def get_rank_predictions(X, y, ranker,
+                         target="data points",
+                         round_precision=4):
+    results = pd.DataFrame(y)
+
+    pred = ranker.predict(X)
+    results['pred_rank'] = pd.Series(pred).rank(method='dense', ascending=False).values
+
+    selected_mean_rank = results[results['selected?'] == True]['pred_rank'].mean()
+    print(f"Mean rank of selected {target} based on predictions: {round(selected_mean_rank, round_precision)}")
+    print(results.sort_values(['pred_rank', 'selected?']).head(), "\n")
+    
+    return results.sort_values(['pred_rank', 'selected?'])
