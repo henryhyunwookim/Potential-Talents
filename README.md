@@ -40,7 +40,7 @@ The data comes from our sourcing efforts. We removed any field that could direct
 
 ### <b>Notebook and Installation</b>
 
-To run Term Deposit Marketing.ipynb locally, please clone or fork this repo and install the required packages by running the following command:
+To run Potential Talents.ipynb locally, please clone or fork this repo and install the required packages by running the following command:
 
 pip install -r requirements.txt
 
