@@ -36,16 +36,18 @@ def transform_fit_predict(X_train, y_train, X_test, y_test,
     print(f"{method}: {np.mean(scores)}")
 
 
-def get_rank_predictions(X, y, ranker,
+def get_rank_predictions(X, y, ranker, target_column,
                          target="data points",
+                         top_n=5,
                          round_precision=4):
     results = pd.DataFrame(y)
 
     pred = ranker.predict(X)
-    results['pred_rank'] = pd.Series(pred).rank(method='dense', ascending=False).values
+    results['pred_rank'] = pd.Series(pred).rank(method='dense', ascending=True).values
 
-    selected_mean_rank = results[results['selected?'] == True]['pred_rank'].mean()
-    print(f"Mean rank of selected {target} based on predictions: {round(selected_mean_rank, round_precision)}")
-    print(results.sort_values(['pred_rank', 'selected?']).head(), "\n")
+    selected_mean_rank = results[results[target_column] <= top_n]['pred_rank'].mean()
+    print(f"Mean rank of top {top_n} {target} based on predictions: {round(selected_mean_rank, round_precision)}")
+    print(f"Mean rank of all {target} based on predictions: {round(results['pred_rank'].mean(), round_precision)}")
+    print(results.sort_values(['pred_rank', target_column]).head(), "\n")
     
-    return results.sort_values(['pred_rank', 'selected?'])
+    return results.sort_values(['pred_rank', target_column])
