@@ -48,6 +48,7 @@ def get_rank_predictions(X, y, ranker, target_column,
     selected_mean_rank = results[results[target_column] <= top_n]['pred_rank'].mean()
     print(f"Mean rank of top {top_n} {target} based on predictions: {round(selected_mean_rank, round_precision)}")
     print(f"Mean rank of all {target} based on predictions: {round(results['pred_rank'].mean(), round_precision)}")
+    print(f"Std rank of all {target} based on predictions: {round(results['pred_rank'].std(), round_precision)}")
     print(results.sort_values(['pred_rank', target_column]).head(), "\n")
     
     return results.sort_values(['pred_rank', target_column])
