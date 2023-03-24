@@ -44,11 +44,14 @@ def get_rank_predictions(X, y, ranker, target_column,
 
     pred = ranker.predict(X)
     results['pred_rank'] = pd.Series(pred).rank(method='dense', ascending=True).values
+    results['abs_diff'] = abs( results['rank'] - results['pred_rank'] )
 
     selected_mean_rank = results[results[target_column] <= top_n]['pred_rank'].mean()
     print(f"Mean rank of top {top_n} {target} based on predictions: {round(selected_mean_rank, round_precision)}")
     print(f"Mean rank of all {target} based on predictions: {round(results['pred_rank'].mean(), round_precision)}")
     print(f"Std rank of all {target} based on predictions: {round(results['pred_rank'].std(), round_precision)}")
+    print(f"Mean absolute difference between each pair of rank and predicted rank:",
+          f"{round(results['abs_diff'].mean(), round_precision)}")
     print(results.sort_values(['pred_rank', target_column]).head(), "\n")
     
     return results.sort_values(['pred_rank', target_column])
