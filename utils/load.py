@@ -20,4 +20,7 @@ def load_data(file_name, folder_name=None):
     else:
         raise f"Failed to load data - invalid file type {file_type}"
     
+    print(output.info(), "\n")
+    print(output.describe(), "\n")
+
     return output
