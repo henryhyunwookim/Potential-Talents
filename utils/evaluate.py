@@ -240,3 +240,22 @@ def group_items(_dict, group_keys):
                 else:
                     grouped_dict[group_key] = v
     return dict(sorted(grouped_dict.items(), key=operator.itemgetter(1), reverse=True))
+
+
+def get_mean_stats(xgb_train_result, xgb_train_result_updated,
+                   xgb_test_result, xgb_test_result_updated,
+                   lgbm_train_result, lgbm_train_result_updated,
+                   lgbm_test_result, lgbm_test_result_updated):
+    overall_mean_dict = {}
+
+    overall_mean_dict["xgb_train"] = round(xgb_train_result.mean(), 4).to_dict()
+    overall_mean_dict["xgb_train_updated"] = round(xgb_train_result_updated.mean(), 4).to_dict()
+    overall_mean_dict["xgb_test"] = round(xgb_test_result.mean(), 4).to_dict()
+    overall_mean_dict["xgb_test_updated"] = round(xgb_test_result_updated.mean(), 4).to_dict()
+
+    overall_mean_dict["lgbm_train"] = round(lgbm_train_result.mean(), 4).to_dict()
+    overall_mean_dict["lgbm_train_updated"] = round(lgbm_train_result_updated.mean(), 4).to_dict()
+    overall_mean_dict["lgbm_test"] = round(lgbm_test_result.mean(), 4).to_dict()
+    overall_mean_dict["lgbm_test_updated"] = round(lgbm_test_result_updated.mean(), 4).to_dict()
+
+    return pd.DataFrame(overall_mean_dict)

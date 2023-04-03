@@ -55,3 +55,41 @@ def get_rank_predictions(X, y, ranker, target_column,
     print(results.sort_values(['pred_rank', target_column]).head(), "\n")
     
     return results.sort_values(['pred_rank', target_column])
+
+
+def get_stats(X_train, X_test, y_train, y_test, model,
+              target_column="rank", target="candidates",
+              updated=False):
+    stats_columns = ["y_train", "y_test"]
+    print_statements = [
+        "Ground truth stats:",
+        "Train stats:",
+        "Test stats:"
+    ]
+    if updated:
+        stats_columns = [stats_column + "_updated" for stats_column in stats_columns]
+        print_statements = ["(Updated) " + print_statement for print_statement in print_statements]
+    
+    stats_df = pd.DataFrame(
+        index=["Mean (Top 5 rankers)", "Mean", "Std"],
+        columns=stats_columns,
+        data=[
+            [round(y_train[y_train<=5].mean(), 4),
+            round(y_test[y_test<=5].mean(), 4)],
+            [round(y_train.mean(), 4),
+            round(y_test.mean(), 4)],
+            [round(y_train.std(), 4),
+            round(y_test.std(), 4)]
+        ]
+    )
+
+    print(print_statements[0])
+    print(stats_df,"\n")
+
+    print(print_statements[1])
+    train_result = get_rank_predictions(X_train, y_train, model, target_column=target_column, target=target)
+
+    print(print_statements[2])
+    test_result = get_rank_predictions(X_test, y_test, model, target_column=target_column, target=target)
+
+    return stats_df, train_result, test_result
