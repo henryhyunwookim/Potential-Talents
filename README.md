@@ -38,7 +38,27 @@ The data comes from our sourcing efforts. We removed any field that could direct
 - Can we determine a cut-off point that would work for other roles without losing high potential candidates?
 - Do you have any ideas that we should explore so that we can even automate this procedure to prevent human bias?
 
+### <b> Results</b>
+
+<u>Fitness Scores</u>
+
+The fitness scores for each candidate, with respect to specific job roles, were determined by computing similarity scores between their job title and keywords (i.e., 'aspiring human resources', 'seeking human resources'). To ensure a robust evaluation, we employed five distinct word embedding techniques: TF-IDF, TensorFlow's Tokenizer, GloVe, Word2Vec, and FastText.
+
+These techniques generated multiple fitness scores for each candidate, ranging from 0 to 1. These scores enabled us to identify candidates who were significantly misaligned with the desired roles, as indicated by a fitness score of 0. To improve the quality of our candidate list and remove those initially unfit for the roles, a thorough examination was conducted. Based on this assessment, we filtered out candidates with a fitness score of 0 by any of the five techniques, deeming them irrelevant to the job roles.
+
+<u>Ranking Algorithms</u>
+
+We utilized two Learning To Rank (LTR) algorithms: XGBoost and LGBM Rankers. In the evaluation on the test dataset, both ranking models showcased a mean absolute difference of less than 2 between the actual and predicted ranks, affirming their high accuracy in rank prediction.
+
+Furthermore, these ranking models effectively accommodated manual input of feedback, facilitating a re-ranking of the candidate list based on the provided feedback. Here's how it functioned: if a candidate received a 'star' through manual review of the ranked list, they were promoted to the top rank. Subsequently, the ranking models were re-trained with this updated ranking information, ensuring continuous refinement and alignment with the manual assessments.
+
+<u>Applications</u>
+
+Our robust scoring and ranking system allows easy integration by simply substituting candidate data and keywords (i.e., specific job roles to fill) with new ones in the pipeline.  Moreover, the system and insights obtained from this project can be applied to a wide array of information retrieval challenges.
+
 ### <b>Notebook and Installation</b>
+
+For more details, you may refer to <a href='https://github.com/henryhyunwookim/Potential-Talents/blob/main/Potential%20Talents.ipynb'>this notebook</a> directly.
 
 To run Potential Talents.ipynb locally, please clone or fork this repo and install the required packages by running the following command:
 
