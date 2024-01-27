@@ -64,4 +64,4 @@ To run Potential Talents.ipynb locally, please clone or fork this repo and insta
 
 pip install -r requirements.txt
 
-##### Source: Apziva
+##### <i>* Associated with Apziva</i>
